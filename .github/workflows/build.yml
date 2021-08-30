@@ -13,15 +13,17 @@ jobs:
         run: brew install arm-gcc-bin@10
       - name: Install avr-gcc 8
         run: brew link --force avr-gcc@8
-      - name: clone SonixQMK
-        run: git clone -b sn32-josh https://github.com/itspriddle/qmk_firmware.git
-      - name: pip
+      - name: Clone SonixQMK
+        run: git clone https://github.com/SonixQMK/qmk_firmware.git
+      - name: Install QMK pip dependencies
         run: cd qmk_firmware && python3 -m pip install -r requirements.txt
-      - name: git submodules
+      - name: Install git submodules
         run: cd qmk_firmware && make git-submodule
-      - name: compile firmware
+      - name: Copy custom keymaps
+        run: cp -rp keymaps qmk_firmware/keyboards/keychron/k6/keymaps/ansi-josh
+      - name: Compile firmware
         run: cd qmk_firmware && make keychron/k6:ansi-josh
-      - name: Release
+      - name: Upload compiled firmware
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
