@@ -1,0 +1,26 @@
+name: Tests
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: macos-11
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install qmk
+        run: brew install expect
+      - name: Install qmk
+        run: brew install qmk/qmk/qmk
+      - name: Install arm-gcc 10
+        run: brew install arm-gcc-bin@10
+      - name: Install avr-gcc 8
+        run: brew link --force avr-gcc@8
+      - name: clone SonixQMK
+        run: git clone https://github.com/itspriddle/qmk_firmware.git
+      - name: pip
+        run: cd qmk_firmware && python3 -m pip install -r requirements.txt
+      - name: git submodules
+        run: cd qmk_firmware && make git-submodule
+      - name: compile firmware
+        run: cd qmk_firmware && make keychron/k6:ansi-josh
+
