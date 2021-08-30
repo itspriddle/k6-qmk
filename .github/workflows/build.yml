@@ -8,8 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install qmk
-        run: brew install expect
-      - name: Install qmk
         run: brew install qmk/qmk/qmk
       - name: Install arm-gcc 10
         run: brew install arm-gcc-bin@10
