@@ -16,11 +16,10 @@ jobs:
       - name: Install avr-gcc 8
         run: brew link --force avr-gcc@8
       - name: clone SonixQMK
-        run: git clone https://github.com/itspriddle/qmk_firmware.git
+        run: git clone -b sn32-josh https://github.com/itspriddle/qmk_firmware.git
       - name: pip
         run: cd qmk_firmware && python3 -m pip install -r requirements.txt
       - name: git submodules
         run: cd qmk_firmware && make git-submodule
       - name: compile firmware
         run: cd qmk_firmware && make keychron/k6:ansi-josh
-
