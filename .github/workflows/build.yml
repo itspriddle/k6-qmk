@@ -4,19 +4,15 @@ on: [push]
 
 jobs:
   build:
-    runs-on: macos-11
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install qmk
-        run: brew install qmk/qmk/qmk
-      - name: Install arm-gcc 10
-        run: brew install arm-gcc-bin@10
-      - name: Install avr-gcc 8
-        run: brew link --force avr-gcc@8
       - name: Clone SonixQMK
         run: git clone https://github.com/SonixQMK/qmk_firmware.git
-      - name: Install QMK pip dependencies
-        run: cd qmk_firmware && python3 -m pip install -r requirements.txt
+      - name: Install qmk deps
+        run: cd qmk_firmware && ./util/qmk_install.sh
+      - name: fix gcc
+        run: curl -o ./update-gcc10-ubuntu.sh https://raw.githubusercontent.com/radunanescu/ubuntu_gcc_armtoolchain10/main/update-gcc10-ubuntu.sh && chmod +x update-gcc10-ubuntu.sh && sudo ./update-gcc10-ubuntu.sh
       - name: Install git submodules
         run: cd qmk_firmware && make git-submodule
       - name: Copy custom keymaps
@@ -29,3 +25,28 @@ jobs:
         with:
           files: |
             qmk_firmware/keychron_k6_ansi-josh.bin
+    # runs-on: macos-11
+    # steps:
+    #   - uses: actions/checkout@v2
+    #   - name: Install qmk
+    #     run: brew install qmk/qmk/qmk
+    #   - name: Install arm-gcc 10
+    #     run: brew install arm-gcc-bin@10
+    #   - name: Install avr-gcc 8
+    #     run: brew link --force avr-gcc@8
+    #   - name: Clone SonixQMK
+    #     run: git clone https://github.com/SonixQMK/qmk_firmware.git
+    #   - name: Install QMK pip dependencies
+    #     run: cd qmk_firmware && python3 -m pip install -r requirements.txt
+    #   - name: Install git submodules
+    #     run: cd qmk_firmware && make git-submodule
+    #   - name: Copy custom keymaps
+    #     run: cp -rp keymaps qmk_firmware/keyboards/keychron/k6/keymaps/ansi-josh
+    #   - name: Compile firmware
+    #     run: cd qmk_firmware && make keychron/k6:ansi-josh
+    #   - name: Upload compiled firmware
+    #     uses: softprops/action-gh-release@v1
+    #     if: startsWith(github.ref, 'refs/tags/')
+    #     with:
+    #       files: |
+    #         qmk_firmware/keychron_k6_ansi-josh.bin
