@@ -25,7 +25,7 @@ jobs:
         run: cd qmk_firmware && make keychron/k6:ansi-josh
       - name: Upload compiled firmware
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        # if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
             qmk_firmware/keychron_k6_ansi-josh.bin
