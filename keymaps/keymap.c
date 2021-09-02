@@ -91,18 +91,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤    
  * │ CAPS │   │   │   │   │   │   │   │   │   │   │   │        │   │
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
- * │        │   │   │   │   │   │   │   │   │   │   │      │VAI│   │
+ * │ LSHIFT │   │   │   │   │   │   │   │   │   │   │RSHIFT│VAI│   │
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
- * │    │    │    │ RESET KB TO BOOTLOADER │   │   │FN2│LBK│VAD│LFW│
+ * │CTRL│OPT │CMD │ RESET KB TO BOOTLOADER │   │   │FN2│LBK│VAD│LFW│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  */
 [_MAC_FN1] = {
-  // 0,      1,       2,       3,          4,      5,       6,       7,       8,       9,       10,      11,      12,            13,       14,      15
-  { KC_ESC,  KC_F14,  KC_F15,  MAC_EXPOSE, KC_F16, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU,       KC_NO,    KC_NO,   RGB_TOG },
-  { KC_NO,   KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,        KC_NO,    KC_NO,   KC_NO   },
-  { KC_CAPS, KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_NO,    KC_NO,   KC_NO   },
-  { KC_NO,   KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_NO,    RGB_VAI, KC_NO   },
-  { KC_TRNS, KC_TRNS, KC_TRNS, KC_NO,      KC_NO,  KC_NO,   RESET,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_NO,   DF(_WIN_BASE), RGB_RMOD, RGB_VAD, RGB_MOD }
+  // 0,      1,       2,       3,          4,      5,       6,       7,       8,       9,       10,      11,      12,      13,       14,      15
+  { KC_ESC,  KC_F14,  KC_F15,  MAC_EXPOSE, KC_F16, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_NO,    KC_NO,   RGB_TOG },
+  { KC_NO,   KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,  KC_NO,    KC_NO,   KC_NO   },
+  { KC_CAPS, KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,   KC_NO   },
+  { KC_TRNS, KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS,  RGB_VAI, KC_NO   },
+  { KC_TRNS, KC_TRNS, KC_TRNS, KC_NO,      KC_NO,  KC_NO,   RESET,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_NO,   KC_NO,   RGB_RMOD, RGB_VAD, RGB_MOD }
 },
 
 /* F1-F12 - Standard F keys
