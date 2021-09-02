@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* F14 - Brightness up
  * F15 - Brightness down
- * ^UP - Ctrl-Up - Expose
+ * MEX - Exposé (custom keycode)
  * F16 - Custom, map to Launchpad in Keyboard prefs
  * KBD - Keyboard Brightness Down
  * KBU - Keyboard Brightness Up
@@ -85,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * LFW - RGB style forward
  *
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┬───┐
- * │ESC│F14│F15│^UP│F16│KBD│KBU│MPR│MPL│MNX│VMU│VUP│VDO│       │LTO│
+ * │ESC│F14│F15│MEX│F16│KBD│KBU│MPR│MPL│MNX│VMU│VUP│VDO│       │LTO│
  * ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─────┼───┤
  * │     │   │   │   │   │   │   │   │   │   │INS│DEL│END│     │   │
  * ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤    
@@ -95,6 +95,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
  * │CTRL│OPT │CMD │ RESET KB TO BOOTLOADER │   │   │FN2│LBK│VAD│LFW│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
+ *
+ * TODO: Is RGB_TOG okay since it writes to EEPROM?
  */
 [_MAC_FN1] = {
   // 0,      1,       2,       3,          4,      5,       6,       7,       8,       9,       10,      11,      12,      13,       14,      15
@@ -218,8 +220,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 }
 };
 
-
-
+// This does not fire :(
 void dip_switch_update_user(uint8_t index, bool active) {
   switch (index) {
     case 0:
@@ -264,8 +265,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   mod_state = get_mods();
 
   switch (keycode) {
-    // FN1 + 3:        Exposée all apps' windows (via Ctrl-Up)
-    // FN1 + CTRL + 3: Exposée current apps' windows (via Ctrl-Down)
+    // FN1 + 3:        Exposé all apps' windows (via Ctrl-Up)
+    // FN1 + CTRL + 3: Exposé current apps' windows (via Ctrl-Down)
     // FN1 + CMD + 3:  Show Desktop (via F11)
     case MAC_EXPOSE:
       if (mod_state & MOD_MASK_GUI) {
