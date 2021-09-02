@@ -29,6 +29,12 @@ enum layer_names {
     _WIN_FN2,
 };
 
+// Custom keykodes
+enum my_keycodes {
+  MAC_EXPOSE = SAFE_RANGE,
+  MAC_LAUNCHPAD
+};
+
 // https://beta.docs.qmk.fm/using-qmk/simple-keycodes/keycodes
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -91,12 +97,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  */
 [_MAC_FN1] = {
-  // 0,      1,      2,      3,           4,      5,       6,       7,       8,       9,       10,      11,      12,            13,       14,      15
-  { KC_ESC,  KC_F14, KC_F15, RCTL(KC_UP), KC_F16, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU,       KC_NO,    KC_NO,   RGB_TOG },
-  { KC_NO,   KC_NO,  KC_NO,  KC_NO,       KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,        KC_NO,    KC_NO,   KC_NO   },
-  { KC_CAPS, KC_NO,  KC_NO,  KC_NO,       KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_NO,    KC_NO,   KC_NO   },
-  { KC_NO,   KC_NO,  KC_NO,  KC_NO,       KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_NO,    RGB_VAI, KC_NO   },
-  { KC_NO,   KC_NO,  KC_NO,  KC_NO,       KC_NO,  KC_NO,   RESET,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   DF(_WIN_BASE), RGB_RMOD, RGB_VAD, RGB_MOD }
+  // 0,      1,       2,       3,          4,      5,       6,       7,       8,       9,       10,      11,      12,            13,       14,      15
+  { KC_ESC,  KC_F14,  KC_F15,  MAC_EXPOSE, KC_F16, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU,       KC_NO,    KC_NO,   RGB_TOG },
+  { KC_NO,   KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,        KC_NO,    KC_NO,   KC_NO   },
+  { KC_CAPS, KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_NO,    KC_NO,   KC_NO   },
+  { KC_NO,   KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_NO,    RGB_VAI, KC_NO   },
+  { KC_TRNS, KC_TRNS, KC_TRNS, KC_NO,      KC_NO,  KC_NO,   RESET,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_NO,   DF(_WIN_BASE), RGB_RMOD, RGB_VAD, RGB_MOD }
 },
 
 /* F1-F12 - Standard F keys
@@ -212,6 +218,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 }
 };
 
+
+
 void dip_switch_update_user(uint8_t index, bool active) {
   switch (index) {
     case 0:
@@ -243,4 +251,60 @@ void keyboard_post_init_user(void) {
   //debug_matrix=true;
   //debug_keyboard=true;
   //debug_mouse=true;
+}
+
+uint8_t mod_state;
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  mod_state = get_mods();
+
+  switch (keycode) {
+    // FN1 + 3:        Exposée all apps' windows (via Ctrl-Up)
+    // FN1 + CTRL + 3: Exposée current apps' windows (via Ctrl-Down)
+    // FN1 + CMD + 3:  Show Desktop (via F11)
+    case MAC_EXPOSE:
+      if (mod_state & MOD_MASK_GUI) {
+        if (record->event.pressed) {
+          clear_mods();
+          register_code(KC_F11);
+          set_mods(mod_state);
+        } else {
+          unregister_code(KC_F11);
+          set_mods(mod_state);
+        }
+      } else if (mod_state & MOD_MASK_CTRL) {
+        if (record->event.pressed) {
+          clear_mods();
+          set_mods(MOD_MASK_CTRL);
+          register_code(KC_DOWN);
+          set_mods(mod_state);
+        } else {
+          unregister_code(KC_DOWN);
+          set_mods(mod_state);
+        }
+      } else {
+        if (record->event.pressed) {
+          clear_mods();
+          set_mods(MOD_MASK_CTRL);
+          register_code(KC_UP);
+          set_mods(mod_state);
+        } else {
+          unregister_code(KC_UP);
+          set_mods(mod_state);
+        }
+      }
+      return false;
+      break;
+    // FN + 4: Show Launchpad (via F16, needs to be manually set in Mac OS
+    //         keyboard prefs)
+    case MAC_LAUNCHPAD:
+      if (record->event.pressed) {
+        register_code(KC_F16);
+      } else {
+        unregister_code(KC_F16);
+      }
+      return false;
+      break;
+  }
+  return true;
 }
