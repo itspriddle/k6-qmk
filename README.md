@@ -10,7 +10,7 @@ flashing with [Sonix Flasher][].
 ## K6 Keymap
 
 My K6 keymap is at [`keymaps/keymap.c`](./keymaps/keymap.c). It is a copy of
-the [`keychron/k6:ansi`][Sonix QMK K6 Keymap][] targeting macOS.
+the [`keychron/k6:ansi`][Sonix QMK K6 Keymap] targeting macOS.
 
 See the [releases](https://github.com/itspriddle/k6-qmk/releases)
 
