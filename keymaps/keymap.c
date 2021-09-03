@@ -31,7 +31,9 @@ enum layer_names {
 
 // Custom keykodes
 enum my_keycodes {
-  MAC_EXPOSE = SAFE_RANGE
+  MAC_EXPOSE = SAFE_RANGE,
+  SET_MAC,
+  SET_WIN
 };
 
 // https://beta.docs.qmk.fm/using-qmk/simple-keycodes/keycodes
@@ -144,21 +146,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤    
  * │      │   │   │   │   │   │   │   │   │   │   │   │        │   │
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
- * │        │   │   │   │   │   │   │   │   │   │   │      │VAI│   │
+ * │        │   │   │   │   │   │   │   │   │   │   │      │KPI│   │
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
- * │    │    │    │                        │   │   │   │HUD│VAD│HUI│
+ * │    │    │    │                        │MOD│   │   │   │KPD│   │
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  *
- * HUI - RGB hue increase
- * HUI - RGB hue decrease
+ * KPI - Keyboard RGB speed increase
+ * KPD - Keyboard RGB speed decrease
+ * MOD - Swap to Windows mode (persistent)
  */
 [_MAC_FN2] = {
-  // 0,    1,      2,      3,      4,      5,      6,      7,      8,      9,      10,     11,     12,     13,      14,      15
-  { KC_NO, KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10, KC_F11, KC_F12, KC_NO,   KC_NO,   KC_NO      },
-  { KC_NO, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17, KC_F18, KC_F19, KC_F20, KC_F21, KC_F22, KC_F23, KC_F24, KC_NO,   KC_NO,   KC_NO      },
-  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   KC_NO,   KC_NO      },
-  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   RGB_VAI, KC_NO      },
-  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  RGB_HUD, RGB_VAD, RGB_HUI    }
+  // 0,    1,      2,      3,      4,      5,      6,      7,      8,      9,      10,      11,     12,     13,    14,      15
+  { KC_NO, KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10,  KC_F11, KC_F12, KC_NO, KC_NO,   KC_NO },
+  { KC_NO, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17, KC_F18, KC_F19, KC_F20, KC_F21, KC_F22,  KC_F23, KC_F24, KC_NO, KC_NO,   KC_NO },
+  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   KC_NO,  KC_NO,  KC_NO, KC_NO,   KC_NO },
+  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   KC_NO,  KC_NO,  KC_NO, RGB_SPI, KC_NO },
+  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  SET_WIN, KC_NO,  KC_NO,  KC_NO, RGB_SPD, KC_NO }
 },
 
 /**
@@ -238,18 +241,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤    
  * │      │   │   │   │   │   │   │   │   │   │   │   │        │   │
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
- * │        │   │   │   │   │   │   │   │   │   │   │      │VAI│   │
+ * │        │   │   │   │   │   │   │   │   │   │   │      │KPI│   │
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
- * │    │    │    │                        │   │   │   │HUD│VAD│HUI│
+ * │    │    │    │                        │MOD│   │   │   │KPD│   │
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
+ *
+ * KPI - Keyboard RGB speed increase
+ * KPD - Keyboard RGB speed decrease
+ * MOD - Swap to Mac mode (persistent)
  */
 [_WIN_FN2] = {
-  // 0,    1,      2,      3,      4,      5,      6,      7,      8,      9,      10,     11,     12,     13,      14,      15
-  { KC_NO, KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10, KC_F11, KC_F12, KC_NO,   KC_NO,   KC_NO   },
-  { KC_NO, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17, KC_F18, KC_F19, KC_F20, KC_F21, KC_F22, KC_F23, KC_F24, KC_NO,   KC_NO,   KC_NO   },
-  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   KC_NO,   KC_NO   },
-  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   RGB_VAI, KC_NO   },
-  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  RGB_HUD, RGB_VAD, RGB_HUI }
+  // 0,    1,      2,      3,      4,      5,      6,      7,      8,      9,      10,      11,     12,     13,    14,      15
+  { KC_NO, KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10,  KC_F11, KC_F12, KC_NO, KC_NO,   KC_NO },
+  { KC_NO, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17, KC_F18, KC_F19, KC_F20, KC_F21, KC_F22,  KC_F23, KC_F24, KC_NO, KC_NO,   KC_NO },
+  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   KC_NO,  KC_NO,  KC_NO, KC_NO,   KC_NO },
+  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   KC_NO,  KC_NO,  KC_NO, RGB_SPI, KC_NO },
+  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  SET_MAC, KC_NO,  KC_NO,  KC_NO, RGB_SPD, KC_NO }
 }
 };
 
@@ -333,6 +340,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
       }
 
+      return false;
+      break;
+    case SET_MAC:
+      set_single_persistent_default_layer(_MAC_BASE);
+      return false;
+      break;
+    case SET_WIN:
+      set_single_persistent_default_layer(_WIN_BASE);
       return false;
       break;
   }
