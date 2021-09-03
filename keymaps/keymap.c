@@ -31,8 +31,7 @@ enum layer_names {
 
 // Custom keykodes
 enum my_keycodes {
-  MAC_EXPOSE = SAFE_RANGE,
-  MAC_LAUNCHPAD
+  MAC_EXPOSE = SAFE_RANGE
 };
 
 // https://beta.docs.qmk.fm/using-qmk/simple-keycodes/keycodes
@@ -43,7 +42,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┬───┐
  * │ ` │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │ 0 │ - │ + │ BKSPC │LGT│
  * ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─────┼───┤
- * │ TAB │ Q │ W │ E │ R │ T │ Y │ U │ I │ O │ P │ [ │ ] │ \   │HOM│
+ * │ TAB │ Q │ W │ E │ R │ T │ Y │ U │ I │ O │ P │ [ │ ] │  \  │HOM│
  * ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤    
  * │ ESC  │ A │ S │ D │ F │ G │ H │ J │ K │ L │ ; │ ' │ ENTER  │PUP│
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
@@ -66,41 +65,39 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { KC_LCTL, KC_LALT, KC_LGUI, KC_NO, KC_NO, KC_NO, KC_SPC, KC_NO, KC_NO, KC_NO,   KC_RGUI, MO(_MAC_FN1), MO(_MAC_FN2), KC_LEFT,   KC_DOWN, KC_RGHT   }
 },
 
-/* F14 - Brightness up
- * F15 - Brightness down
+/* F14 - Brightness up (works better than KC_BRIU/KC_BRID on M1 Mac Mini)
+ * F15 - Brightness down (works better than KC_BRIU/KC_BRID on M1 Mac Mini)
  * MEX - Exposé (custom keycode)
  * F16 - Custom, map to Launchpad in Keyboard prefs
- * KBD - Keyboard Brightness Down
- * KBU - Keyboard Brightness Up
+ * KLD - Keyboard RGB lights down
+ * KLU - Keyboard RGB lights up
  * MPR - Music Previous
  * MPL - Music Play
  * MNX - Music Next
  * VMU - Volume Mute
  * VUP - Volume Up
  * VDO - Volume Down
- * LTO - RGB toggle on/off
- * VAI - Increase RGB brightness
- * VAD - Decrease RGB brightness
- * LBK - RGB style back
- * LFW - RGB style forward
+ * KLT - Keyboard RGB light toggle on/off
+ * KLB - Keyboard RGB light style back
+ * KLF - Keyboard RGB light style forward
  *
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┬───┐
- * │ESC│F14│F15│MEX│F16│KBD│KBU│MPR│MPL│MNX│VMU│VUP│VDO│       │LTO│
+ * │ESC│F14│F15│MEX│F16│KLD│KLU│MPR│MPL│MNX│VMU│VUP│VDO│  DEL  │KLT│
  * ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─────┼───┤
  * │     │   │   │   │   │   │   │   │   │   │INS│DEL│END│     │   │
  * ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤    
  * │ CAPS │   │   │   │   │   │   │   │   │   │   │   │        │   │
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
- * │ LSHIFT │   │   │   │   │   │   │   │   │   │   │RSHIFT│VAI│   │
+ * │ LSHIFT │   │   │   │   │   │   │   │   │   │   │RSHIFT│KLU│   │
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
- * │CTRL│OPT │CMD │ RESET KB TO BOOTLOADER │   │   │FN2│LBK│VAD│LFW│
+ * │CTRL│OPT │CMD │ RESET KB TO BOOTLOADER │CMD│   │   │KLB│KLD│KLF│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  *
  * TODO: Is RGB_TOG okay since it writes to EEPROM?
  */
 [_MAC_FN1] = {
   // 0,      1,       2,       3,          4,      5,       6,       7,       8,       9,       10,      11,      12,      13,       14,      15
-  { KC_ESC,  KC_F14,  KC_F15,  MAC_EXPOSE, KC_F16, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_NO,    KC_NO,   RGB_TOG },
+  { KC_ESC,  KC_F14,  KC_F15,  MAC_EXPOSE, KC_F16, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_DEL,    KC_NO,   RGB_TOG },
   { KC_NO,   KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,  KC_NO,    KC_NO,   KC_NO   },
   { KC_CAPS, KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,   KC_NO   },
   { KC_TRNS, KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS,  RGB_VAI, KC_NO   },
@@ -119,7 +116,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
  * │        │   │   │   │   │   │   │   │   │   │   │      │VAI│   │
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
- * │    │    │    │ RESET KB TO BOOTLOADER │   │   │   │HUD│VAD│HUI│
+ * │    │    │    │                        │   │   │   │HUD│VAD│HUI│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  */
 [_MAC_FN2] = {
@@ -128,20 +125,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { KC_NO, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17, KC_F18, KC_F19, KC_F20, KC_F21, KC_F22, KC_F23, KC_F24, KC_NO,   KC_NO,   SGUI(KC_4) },
   { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   KC_NO,   KC_NO      },
   { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   RGB_VAI, KC_NO      },
-  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  RESET,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  RGB_HUD, RGB_VAD, RGB_HUI    }
+  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  RGB_HUD, RGB_VAD, RGB_HUI    }
 },
 
 /*
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┬───┐
  * │ ` │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │ 0 │ - │ + │ BKSPC │LGT│
  * ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─────┼───┤
- * │ TAB │ Q │ W │ E │ R │ T │ Y │ U │ I │ O │ P │ [ │ ] │ \   │HOM│
+ * │ TAB │ Q │ W │ E │ R │ T │ Y │ U │ I │ O │ P │ [ │ ] │  \  │HOM│
  * ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤    
  * │ ESC  │ A │ S │ D │ F │ G │ H │ J │ K │ L │ ; │ ' │ ENTER  │PUP│
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
  * │ LSHIFT │ Z │ X │ C │ V │ B │ N │ M │ , │ . │ - │RSHIFT│UP │PDN│
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
- * │CTRL│WIN │ALT │                        │MAC│FN1│FN2│LFT│DWN│RGT│
+ * │CTRL│WIN │ALT │                        │WIN│FN1│FN2│LFT│DWN│RGT│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  *
  * LGT - Cycle Lights
@@ -160,63 +157,61 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* BRU - Brightness up
  * BRD - Brightness down
- * KBD - Keyboard Brightness Down
- * KBU - Keyboard Brightness Up
+ * KLD - Keyboard Brightness Down
+ * KLU - Keyboard Brightness Up
  * MPR - Music Previous
  * MPL - Music Play
  * MNX - Music Next
  * VMU - Volume Mute
  * VUP - Volume Up
  * VDO - Volume Down
- * LOF - Keyboard Lights Off
- * VAI
- * VAD
- * LBK - Light style back
- * LFW - light style forward
+ * KLT - Keyboard Lights Off
+ * KLB - Light style back
+ * KLF - light style forward
  *
  *
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┬───┐
- * │ESC│BRD│BRU│   │   │KBD│KBU│MPR│MPL│MNX│VMU│VUP│VDO│       │LOF│
+ * │ESC│BRD│BRU│   │   │KLD│KLU│MPR│MPL│MNX│VMU│VUP│VDO│       │KLT│
  * ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─────┼───┤
  * │     │   │   │   │   │   │   │   │   │   │INS│DEL│END│     │   │
  * ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤    
  * │      │   │   │   │   │   │   │   │   │   │   │   │        │   │
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
- * │        │   │   │   │   │   │   │   │   │   │   │      │VAI│   │
+ * │ LSHIFT │   │   │   │   │   │   │   │   │   │   │RSHIFT│VAI│   │
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
- * │    │    │    │ RESET KB TO BOOTLOADER │   │   │FN2│LBK│VAD│LFW│
+ * │CTRL│WIN │ALT │ RESET KB TO BOOTLOADER │CTL│   │   │KLB│VAD│KLF│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  */
 [_WIN_FN1] = {
-  // 0,      1,       2,       3,     4,     5,       6,       7,       8,       9,       10,      11,      12,            13,       14,      15
-  { KC_GRV,  KC_BRID, KC_BRIU, KC_NO, KC_NO, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU,       KC_NO,    KC_NO,   RGB_TOG },
-  { KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,        KC_NO,    KC_NO,   KC_NO   },
-  { KC_CAPS, KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_NO,    KC_NO,   KC_NO   },
-  { KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,         KC_NO,    RGB_VAI, KC_NO   },
-  { KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   RESET,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   DF(_MAC_BASE), RGB_RMOD, RGB_VAD, RGB_MOD }
+  // 0,      1,       2,       3,     4,     5,       6,       7,       8,       9,       10,      11,      12,      13,       14,      15
+  { KC_GRV,  KC_BRID, KC_BRIU, KC_NO, KC_NO, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_NO,    KC_NO,   RGB_TOG },
+  { KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,  KC_NO,    KC_NO,   KC_NO   },
+  { KC_CAPS, KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,   KC_NO   },
+  { KC_TRNS, KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS,  RGB_VAI, KC_NO   },
+  { KC_TRNS, KC_TRNS, KC_TRNS, KC_NO, KC_NO, KC_NO,   RESET,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_NO,   KC_NO,   RGB_RMOD, RGB_VAD, RGB_MOD }
 },
 
-/* F1-F12 - Standard F keys
+/* F1-F22 - Standard F keys
  *
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┬───┐
  * │   │F1 │F2 │F3 │F4 │F5 │F6 │F7 │F8 │F9 │F10│F11│F12│       │   │
  * ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─────┼───┤
- * │     │   │   │   │   │   │   │   │   │   │   │   │   │     │   │
+ * │     │F13│F14│F15│F16│F17│F18│F19│F20│F21│F22│F23│F24│     │   │
  * ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤    
  * │      │   │   │   │   │   │   │   │   │   │   │   │        │   │
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
  * │        │   │   │   │   │   │   │   │   │   │   │      │VAI│   │
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
- * │    │    │    │ RESET KB TO BOOTLOADER │   │   │   │HUD│VAD│HUI│
+ * │    │    │    │                        │   │   │   │HUD│VAD│HUI│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  */
 [_WIN_FN2] = {
-  // 0,    1,     2,     3,     4,     5,     6,     7,     8,     9,     10,     11,     12,     13,      14,      15
-  { KC_NO, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, KC_NO,   KC_NO,   KC_NO   },
-  { KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,   KC_NO,   KC_NO   },
-  { KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,   KC_NO,   KC_NO   },
-  { KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,   RGB_VAI, KC_NO   },
-  { KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, RESET, KC_NO, KC_NO, KC_NO, KC_NO,  KC_NO,  KC_NO,  RGB_HUD, RGB_VAD, RGB_HUI }
+  // 0,    1,      2,      3,      4,      5,      6,      7,      8,      9,      10,     11,     12,     13,      14,      15
+  { KC_NO, KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10, KC_F11, KC_F12, KC_NO,   KC_NO,   KC_NO   },
+  { KC_NO, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17, KC_F18, KC_F19, KC_F20, KC_F21, KC_F22, KC_F23, KC_F24, KC_NO,   KC_NO,   KC_NO   },
+  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   KC_NO,   KC_NO   },
+  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   RGB_VAI, KC_NO   },
+  { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  RGB_HUD, RGB_VAD, RGB_HUI }
 }
 };
 
@@ -298,16 +293,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           unregister_code(KC_UP);
           set_mods(mod_state);
         }
-      }
-      return false;
-      break;
-    // FN + 4: Show Launchpad (via F16, needs to be manually set in Mac OS
-    //         keyboard prefs)
-    case MAC_LAUNCHPAD:
-      if (record->event.pressed) {
-        register_code(KC_F16);
-      } else {
-        unregister_code(KC_F16);
       }
       return false;
       break;
