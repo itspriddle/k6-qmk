@@ -19,7 +19,12 @@ jobs:
         run: cp -rp keymaps qmk_firmware/keyboards/keychron/k6/keymaps/ansi-josh
       - name: Compile firmware
         run: cd qmk_firmware && make keychron/k6:ansi-josh
-      - name: Upload compiled firmware
+      - name: Upload compiled firmware (build artifact)
+        uses: actions/upload-artifact@v2
+        with:
+          name: Keychron K6 QMK Firmware
+          path: qmk_firmware/keychron_k6_ansi.bin
+      - name: Upload compiled firmware (tagged release)
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
