@@ -43,6 +43,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /**
  * macOS Main Layer
  *
+ * TODO:
+ * - Make Home/End work? Map FN1 Home/End to alt+up/down or cmd+up/down?
+ * - DND button (set in prefs, F17?)
+ *
  * This diverges from the main K6 macOS layout by remapping:
  *
  * - Caps Lock => Escape
@@ -266,8 +270,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 }
 };
 
-// This does not fire :(
+// This seems to always go to index=1, active=1
 void dip_switch_update_user(uint8_t index, bool active) {
+  // this won't work :(
+  //dprintf("dippity index=%s active=%s\n", index, active);
   switch (index) {
     case 0:
       if (active) {
@@ -279,8 +285,10 @@ void dip_switch_update_user(uint8_t index, bool active) {
     case 1:
       if (active) {
         // Win/Android mode
+        /* layer_move(_WIN_BASE); */
       } else {
         // Mac/iOS mode
+        /* layer_move(_MAC_BASE); */
       }
       break;
   }
