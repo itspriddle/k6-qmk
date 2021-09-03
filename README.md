@@ -31,7 +31,7 @@ To see how to do this locally on macOS or Linux, see
 Huge thanks to [QMK-on-K6][] for outlining this process!
 
 [QMK]: https://qmk.fm
-[Sonix QMK Firmware]: https://github.com/SonixQMK/qmk_firmware
+[Sonix QMK]: https://github.com/SonixQMK/qmk_firmware
 [Sonix QMK K6 Keymap]: https://github.com/SonixQMK/qmk_firmware/tree/697eca0c/keyboards/keychron/k6/keymaps/ansi
 [Sonix Flasher]: https://github.com/SonixQMK/sonix-flasher/releases/tag/v0.2.1
 [QMK-on-K6]: https://github.com/CanUnesi/QMK-on-K6/blob/main/README.md
