@@ -38,9 +38,16 @@ enum my_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-/*
+/**
+ * macOS Main Layer
+ *
+ * This diverges from the main K6 macOS layout by remapping:
+ *
+ * - Caps Lock => Escape
+ * - Esc => Grave/Tilde
+ *
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┬───┐
- * │ ` │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │ 0 │ - │ + │ BKSPC │LGT│
+ * │ ` │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │ 0 │ - │ + │ BKSPC │KLC│
  * ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─────┼───┤
  * │ TAB │ Q │ W │ E │ R │ T │ Y │ U │ I │ O │ P │ [ │ ] │  \  │HOM│
  * ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤    
@@ -51,7 +58,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * │CTRL│OPT │CMD │                        │CMD│FN1│FN2│LFT│DWN│RGT│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  *
- * LGT - Cycle Lights
+ * KLC - Keyboard RGB mode cycle
  * HOM - Home
  * PUP - Page Up
  * PDN - Page Down
@@ -65,21 +72,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { KC_LCTL, KC_LALT, KC_LGUI, KC_NO, KC_NO, KC_NO, KC_SPC, KC_NO, KC_NO, KC_NO,   KC_RGUI, MO(_MAC_FN1), MO(_MAC_FN2), KC_LEFT,   KC_DOWN, KC_RGHT   }
 },
 
-/* F14 - Brightness up (works better than KC_BRIU/KC_BRID on M1 Mac Mini)
- * F15 - Brightness down (works better than KC_BRIU/KC_BRID on M1 Mac Mini)
- * MEX - Exposé (custom keycode)
- * F16 - Custom, map to Launchpad in Keyboard prefs
- * KLD - Keyboard RGB lights down
- * KLU - Keyboard RGB lights up
- * MPR - Music Previous
- * MPL - Music Play
- * MNX - Music Next
- * VMU - Volume Mute
- * VUP - Volume Up
- * VDO - Volume Down
- * KLT - Keyboard RGB light toggle on/off
- * KLB - Keyboard RGB light style back
- * KLF - Keyboard RGB light style forward
+/**
+ * macOS FN1 Layer
+ *
+ * This layer closely mimicks the default K6 macOS shortcuts.
+ *
+ * - Esc acts as a proper escape instead of grave/tilde
+ * - Screen brightness up (FN1 + 1 on K6) and down (FN1 + 2 on K6) are done
+ *   with F14 and F15 respectively. These work better than KC_BRIU/KC_BRID on
+ *   my M1 mac Mini.
+ * - Backspace is remapped as Delete like on a standard Apple keyboard.
+ * - Caps Lock will act as Caps Lock.
+ * - Exposé (FN1 + 3 on K6) requires a custom QMK keycode to detect Cmd/Ctrl
+ *   mods and delegates to the default macOS keyboard shortcuts (i.e. Ctrl-Up
+ *   / Ctrl-Down / F11).
+ * - Launchpad (FN1 + 4 on K6) does not have a keyboard shortcut enabled in
+ *   macOS by default. The key has been mapped to F16 and it can be set
+ *   manually in macOS Keyboard Preferences.
+ * - Space resets to the QMK bootloader (i.e. for flashing a new firmware).
  *
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┬───┐
  * │ESC│F14│F15│MEX│F16│KLD│KLU│MPR│MPL│MNX│VMU│VUP│VDO│  DEL  │KLT│
@@ -93,20 +103,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * │CTRL│OPT │CMD │ RESET KB TO BOOTLOADER │CMD│   │   │KLB│KLD│KLF│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  *
+ * F14 - Brightness up (works better than KC_BRIU/KC_BRID on M1 Mac Mini)
+ * F15 - Brightness down (works better than KC_BRIU/KC_BRID on M1 Mac Mini)
+ * MEX - Exposé (custom QMK keycode)
+ * F16 - Launchpad (needs to be enabled in macOS Keyboard Preferences)
+ * KLD - Keyboard RGB lights down
+ * KLU - Keyboard RGB lights up
+ * MPR - Music Previous
+ * MPL - Music Play
+ * MNX - Music Next
+ * VMU - Volume Mute
+ * VUP - Volume Up
+ * VDO - Volume Down
+ * KLT - Keyboard RGB light toggle on/off
+ * KLB - Keyboard RGB light style back
+ * KLF - Keyboard RGB light style forward
+ *
  * TODO: Is RGB_TOG okay since it writes to EEPROM?
  */
 [_MAC_FN1] = {
   // 0,      1,       2,       3,          4,      5,       6,       7,       8,       9,       10,      11,      12,      13,       14,      15
-  { KC_ESC,  KC_F14,  KC_F15,  MAC_EXPOSE, KC_F16, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_DEL,    KC_NO,   RGB_TOG },
+  { KC_ESC,  KC_F14,  KC_F15,  MAC_EXPOSE, KC_F16, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_DEL,   KC_NO,   RGB_TOG },
   { KC_NO,   KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,  KC_NO,    KC_NO,   KC_NO   },
   { KC_CAPS, KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,   KC_NO   },
   { KC_TRNS, KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS,  RGB_VAI, KC_NO   },
   { KC_TRNS, KC_TRNS, KC_TRNS, KC_NO,      KC_NO,  KC_NO,   RESET,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_NO,   KC_NO,   RGB_RMOD, RGB_VAD, RGB_MOD }
 },
 
-/* F1-F12 - Standard F keys
- * HUI - RGB hue increase
- * HUI - RGB hue decrease
+/**
+ * macOS FN2 Layer
+ *
+ * This layer includes standard F1-F12 keys present on the K6.
+ *
+ * - Custom maps for F13-F24 are set for keys Q-P
+ *
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┬───┐
  * │   │F1 │F2 │F3 │F4 │F5 │F6 │F7 │F8 │F9 │F10│F11│F12│       │   │
  * ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─────┼───┤
@@ -118,19 +148,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
  * │    │    │    │                        │   │   │   │HUD│VAD│HUI│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
+ *
+ * HUI - RGB hue increase
+ * HUI - RGB hue decrease
  */
 [_MAC_FN2] = {
   // 0,    1,      2,      3,      4,      5,      6,      7,      8,      9,      10,     11,     12,     13,      14,      15
   { KC_NO, KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10, KC_F11, KC_F12, KC_NO,   KC_NO,   KC_NO      },
-  { KC_NO, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17, KC_F18, KC_F19, KC_F20, KC_F21, KC_F22, KC_F23, KC_F24, KC_NO,   KC_NO,   SGUI(KC_4) },
+  { KC_NO, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17, KC_F18, KC_F19, KC_F20, KC_F21, KC_F22, KC_F23, KC_F24, KC_NO,   KC_NO,   KC_NO      },
   { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   KC_NO,   KC_NO      },
   { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,   RGB_VAI, KC_NO      },
   { KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  RGB_HUD, RGB_VAD, RGB_HUI    }
 },
 
-/*
+/**
+ * Windows Main Layer
+ *
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┬───┐
- * │ ` │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │ 0 │ - │ + │ BKSPC │LGT│
+ * │ ` │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │ 0 │ - │ + │ BKSPC │KLC│
  * ├───┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─────┼───┤
  * │ TAB │ Q │ W │ E │ R │ T │ Y │ U │ I │ O │ P │ [ │ ] │  \  │HOM│
  * ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤    
@@ -141,7 +176,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * │CTRL│WIN │ALT │                        │WIN│FN1│FN2│LFT│DWN│RGT│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  *
- * LGT - Cycle Lights
+ * KLC - Keyboard RGB mode cycle
  * HOM - Home
  * PUP - Page Up
  * PDN - Page Down
@@ -155,20 +190,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { KC_LCTL, KC_LGUI, KC_LALT, KC_NO, KC_NO, KC_NO, KC_SPC, KC_NO, KC_NO, KC_NO,   KC_RCTRL, MO(_WIN_FN1), MO(_WIN_FN2), KC_LEFT,   KC_DOWN, KC_RGHT   }
 },
 
-/* BRU - Brightness up
- * BRD - Brightness down
- * KLD - Keyboard Brightness Down
- * KLU - Keyboard Brightness Up
- * MPR - Music Previous
- * MPL - Music Play
- * MNX - Music Next
- * VMU - Volume Mute
- * VUP - Volume Up
- * VDO - Volume Down
- * KLT - Keyboard Lights Off
- * KLB - Light style back
- * KLF - light style forward
- *
+/**
+ * Windows FN1 Layer
  *
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┬───┐
  * │ESC│BRD│BRU│   │   │KLD│KLU│MPR│MPL│MNX│VMU│VUP│VDO│       │KLT│
@@ -177,10 +200,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤    
  * │      │   │   │   │   │   │   │   │   │   │   │   │        │   │
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
- * │ LSHIFT │   │   │   │   │   │   │   │   │   │   │RSHIFT│VAI│   │
+ * │ LSHIFT │   │   │   │   │   │   │   │   │   │   │RSHIFT│KLU│   │
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
- * │CTRL│WIN │ALT │ RESET KB TO BOOTLOADER │CTL│   │   │KLB│VAD│KLF│
+ * │CTRL│WIN │ALT │ RESET KB TO BOOTLOADER │CTL│   │   │KLB│KLD│KLF│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
+ *
+ * BRU - Brightness up
+ * BRD - Brightness down
+ * KLD - Keyboard RGB lights down
+ * KLU - Keyboard RGB lights up
+ * MPR - Music Previous
+ * MPL - Music Play
+ * MNX - Music Next
+ * VMU - Volume Mute
+ * VUP - Volume Up
+ * VDO - Volume Down
+ * KLT - Keyboard Lights Off
+ * KLB - Keyboard RGB light style back
+ * KLF - Keyboard RGB light style forward
  */
 [_WIN_FN1] = {
   // 0,      1,       2,       3,     4,     5,       6,       7,       8,       9,       10,      11,      12,      13,       14,      15
@@ -191,7 +228,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   { KC_TRNS, KC_TRNS, KC_TRNS, KC_NO, KC_NO, KC_NO,   RESET,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_NO,   KC_NO,   RGB_RMOD, RGB_VAD, RGB_MOD }
 },
 
-/* F1-F22 - Standard F keys
+/**
+ * Windows FN2 Layer
  *
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┬───┐
  * │   │F1 │F2 │F3 │F4 │F5 │F6 │F7 │F8 │F9 │F10│F11│F12│       │   │
@@ -294,6 +332,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           set_mods(mod_state);
         }
       }
+
       return false;
       break;
   }
