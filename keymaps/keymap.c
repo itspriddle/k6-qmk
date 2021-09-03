@@ -92,6 +92,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   macOS by default. The key has been mapped to F16 and it can be set
  *   manually in macOS Keyboard Preferences.
  * - Space resets to the QMK bootloader (i.e. for flashing a new firmware).
+ * - Arrow keys control RGB saturation (up to increase, down to decrease) and
+ *   RGB hue (right to increase, left to decrease).
  *
  * ┌───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───────┬───┐
  * │ESC│F14│F15│MEX│F16│KLD│KLU│MPR│MPL│MNX│VMU│VUP│VDO│  DEL  │KLT│
@@ -100,9 +102,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├─────┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴┬──┴─────┼───┤    
  * │ CAPS │   │   │   │   │   │   │   │   │   │   │   │        │   │
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
- * │ LSHIFT │   │   │   │   │   │   │   │   │   │   │RSHIFT│KLU│   │
+ * │ LSHIFT │   │   │   │   │   │   │   │   │   │   │RSHIFT│KSU│   │
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
- * │CTRL│OPT │CMD │ RESET KB TO BOOTLOADER │CMD│   │   │KLB│KLD│KLF│
+ * │CTRL│OPT │CMD │ RESET KB TO BOOTLOADER │CMD│   │   │KHD│KSD│KHU│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  *
  * F14 - Brightness up (works better than KC_BRIU/KC_BRID on M1 Mac Mini)
@@ -120,16 +122,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * KLT - Keyboard RGB light toggle on/off
  * KLB - Keyboard RGB light style back
  * KLF - Keyboard RGB light style forward
+ * KSU - Keyboard RGB saturation increase
+ * KSD - Keyboard RGB saturation decrease
+ * KHU - Keyboard RGB hue increase
+ * KHD - Keyboard RGB hue decrease
  *
  * TODO: Is RGB_TOG okay since it writes to EEPROM?
  */
 [_MAC_FN1] = {
-  // 0,      1,       2,       3,          4,      5,       6,       7,       8,       9,       10,      11,      12,      13,       14,      15
-  { KC_ESC,  KC_F14,  KC_F15,  MAC_EXPOSE, KC_F16, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_DEL,   KC_NO,   RGB_TOG },
-  { KC_NO,   KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,  KC_NO,    KC_NO,   KC_NO   },
-  { KC_CAPS, KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,   KC_NO   },
-  { KC_TRNS, KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS,  RGB_VAI, KC_NO   },
-  { KC_TRNS, KC_TRNS, KC_TRNS, KC_NO,      KC_NO,  KC_NO,   RESET,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_NO,   KC_NO,   RGB_RMOD, RGB_VAD, RGB_MOD }
+  // 0,      1,       2,       3,          4,      5,       6,       7,       8,       9,       10,      11,      12,      13,      14,      15
+  { KC_ESC,  KC_F14,  KC_F15,  MAC_EXPOSE, KC_F16, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_DEL,  KC_NO,   RGB_TOG },
+  { KC_NO,   KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,  KC_NO,   KC_NO,   KC_NO   },
+  { KC_CAPS, KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO   },
+  { KC_TRNS, KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS, RGB_SAI, KC_NO   },
+  { KC_TRNS, KC_TRNS, KC_TRNS, KC_NO,      KC_NO,  KC_NO,   RESET,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_NO,   KC_NO,   RGB_HUD, RGB_SAD, RGB_HUI }
 },
 
 /**
@@ -176,7 +182,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
  * │ LSHIFT │ Z │ X │ C │ V │ B │ N │ M │ , │ . │ - │RSHIFT│UP │PDN│
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
- * │CTRL│WIN │ALT │                        │WIN│FN1│FN2│LFT│DWN│RGT│
+ * │CTRL│WIN │ALT │                        │CTL│FN1│FN2│LFT│DWN│RGT│
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  *
  * KLC - Keyboard RGB mode cycle
@@ -224,11 +230,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_WIN_FN1] = {
   // 0,      1,       2,       3,     4,     5,       6,       7,       8,       9,       10,      11,      12,      13,       14,      15
-  { KC_GRV,  KC_BRID, KC_BRIU, KC_NO, KC_NO, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_NO,    KC_NO,   RGB_TOG },
-  { KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,  KC_NO,    KC_NO,   KC_NO   },
-  { KC_CAPS, KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,    KC_NO,   KC_NO   },
-  { KC_TRNS, KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS,  RGB_VAI, KC_NO   },
-  { KC_TRNS, KC_TRNS, KC_TRNS, KC_NO, KC_NO, KC_NO,   RESET,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_NO,   KC_NO,   RGB_RMOD, RGB_VAD, RGB_MOD }
+  { KC_GRV,  KC_BRID, KC_BRIU, KC_NO, KC_NO, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_NO,   KC_NO,   RGB_TOG },
+  { KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,  KC_NO,   KC_NO,   KC_NO   },
+  { KC_CAPS, KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO   },
+  { KC_TRNS, KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS, RGB_SAI, KC_NO   },
+  { KC_TRNS, KC_TRNS, KC_TRNS, KC_NO, KC_NO, KC_NO,   RESET,   KC_NO,   KC_NO,   KC_NO,   KC_TRNS, KC_NO,   KC_NO,   RGB_HUD, RGB_SAD, RGB_HUI }
 },
 
 /**
