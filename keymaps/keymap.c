@@ -162,12 +162,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
  * │        │   │   │   │   │   │   │   │   │   │   │      │KPI│   │
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
- * │    │    │    │                        │MOD│   │   │   │KPD│   │
+ * │    │    │    │                        │   │   │   │   │KPD│   │
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  *
  * KPI - Keyboard RGB speed increase
  * KPD - Keyboard RGB speed decrease
- * MOD - Swap to Windows mode (persistent)
  */
 [_FN2] = LAYOUT(
   // 0,    1,      2,      3,      4,      5,      6,      7,      8,      9,      10,     11,     12,     13,    14,      15
@@ -259,12 +258,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ├──────┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴─┬─┴────┬───┼───┤
  * │        │   │   │   │   │   │   │   │   │   │   │      │KPI│   │
  * ├────┬───┴┬──┴─┬─┴───┴───┴───┴───┴───┴──┬┴──┬┴──┬┴──┬───┼───┼───┤
- * │    │    │    │                        │MOD│   │   │   │KPD│   │
+ * │    │    │    │                        │   │   │   │   │KPD│   │
  * └────┴────┴────┴────────────────────────┴───┴───┴───┴───┴───┴───┘
  *
  * KPI - Keyboard RGB speed increase
  * KPD - Keyboard RGB speed decrease
- * MOD - Swap to Mac mode (persistent)
  */
 [_FN2] = LAYOUT(
   // 0,  1,      2,      3,      4,      5,      6,      7,      8,      9,      10,     11,     12,     13,    14,      15
