@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Clone SonixQMK
-        run: git clone https://github.com/SonixQMK/qmk_firmware.git
+        run: git clone https://github.com/SonixQMK/qmk_firmware.git && git checkout 96c9d87b61
       - name: Install qmk deps
         run: cd qmk_firmware && ./util/qmk_install.sh
       - name: fix gcc
@@ -18,7 +18,7 @@ jobs:
       - name: Copy custom keymaps
         run: cp -rp keymaps qmk_firmware/keyboards/keychron/k6/keymaps/ansi-josh
       - name: Compile firmware
-        run: cd qmk_firmware && git checkout 96c9d87b61 && make keychron/k6:ansi-josh
+        run: cd qmk_firmware && make keychron/k6:ansi-josh
       - name: Upload compiled firmware (build artifact)
         uses: actions/upload-artifact@v2
         with:
