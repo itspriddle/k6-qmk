@@ -17,39 +17,6 @@
 
 #pragma once
 
-#include "config_common.h"
-#include "config_led.h"
-
-/* USB Device descriptor parameter */
-#define VENDOR_ID       0x0C45
-#define PRODUCT_ID      0x5004
-#define DEVICE_VER      0x0001
-
-#define MANUFACTURER    Keychron
-#define PRODUCT         K6
-#define DESCRIPTION     K6 RGB ANSI
-
-/* key matrix size */
-#define MATRIX_ROWS 5
-#define MATRIX_COLS 16
-
-#define DIODE_DIRECTION COL2ROW
-
-#define MATRIX_COL_PINS { A8, A9, A10, A11, A12, A13, A14, A15, B0, B1, B2, B3, B4, B5, B6, B7 }
-#define MATRIX_ROW_PINS { D11, D10, D9, D8, D7 }
-
-// Connects each switch in the dip switch to the GPIO pin of the MCU
-#define DIP_SWITCH_PINS { D5, D6 }
-
-/* LED Status indicators */
-#define LED_CAPS_LOCK_PIN B9
-#define LED_PIN_ON_STATE  1
-
-/* Debounce reduces chatter (unintended double-presses) - set 0 if debouncing is not needed */
-#define DEBOUNCE 10
-
-/*#define FORCE_NKRO*/
-
 //    0,     1,     2,     3,     4,     5,     6,     7,     8,     9,     10,    11,    12,    13,    14,    15
 #define LAYOUT( \
       K00,   K01,   K02,   K03,   K04,   K05,   K06,   K07,   K08,   K09,   K0A,   K0B,   K0C,   K0D,          K0F, \

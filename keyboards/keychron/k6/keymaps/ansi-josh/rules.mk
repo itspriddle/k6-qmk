@@ -8,4 +8,4 @@ ifeq ($(strip $(_K6_WINDOWS)), yes)
 endif
 
 # Enable console for debugging
-CONSOLE_ENABLE = yes
+# CONSOLE_ENABLE = yes
