@@ -28,9 +28,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // same length, obviously, and you can also skip them entirely and just use
 // numbers.
 enum layer_names {
-    _BASE = 0,
-    _FN1,
-    _FN2,
+    _MAC_BASE = 0,
+    _MAC_FN1,
+    _MAC_FN2,
+    _WIN_BASE,
+    _WIN_FN1,
+    _WIN_FN2,
 };
 
 // Custom keykodes
@@ -41,8 +44,6 @@ enum my_keycodes {
 // https://beta.docs.qmk.fm/using-qmk/simple-keycodes/keycodes
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
-#ifndef _K6_WINDOWS
 
 /**
  * macOS Main Layer
@@ -73,13 +74,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * PUP - Page Up
  * PDN - Page Down
  */
-[_BASE] = LAYOUT(
-  // 0,    1,       2,       3,     4,     5,     6,      7,     8,     9,       10,      11,       12,       13,        14,      15
-  KC_GRV,  KC_1,    KC_2,    KC_3,  KC_4,  KC_5,  KC_6,   KC_7,  KC_8,  KC_9,    KC_0,    KC_MINS,  KC_EQL,   KC_BSPC,            RGB_MOD,
-  KC_TAB,  KC_Q,    KC_W,    KC_E,  KC_R,  KC_T,  KC_Y,   KC_U,  KC_I,  KC_O,    KC_P,    KC_LBRC,  KC_RBRC,  KC_BSLASH,          KC_HOME,
-  KC_ESC,  KC_A,    KC_S,    KC_D,  KC_F,  KC_G,  KC_H,   KC_J,  KC_K,  KC_L,    KC_SCLN, KC_QUOT,            KC_ENT,             KC_PGUP,
-  KC_LSFT,          KC_Z,    KC_X,  KC_C,  KC_V,  KC_B,   KC_N,  KC_M,  KC_COMM, KC_DOT,  KC_SLSH,            KC_RSFT,   KC_UP,   KC_PGDOWN,
-  KC_LCTL, KC_LALT, KC_LGUI,                      KC_SPC,                        KC_RGUI, MO(_FN1), MO(_FN2), KC_LEFT,   KC_DOWN, KC_RGHT
+[_MAC_BASE] = LAYOUT(
+  // 0,    1,       2,       3,     4,     5,     6,      7,     8,     9,       10,      11,           12,           13,        14,      15
+  KC_GRV,  KC_1,    KC_2,    KC_3,  KC_4,  KC_5,  KC_6,   KC_7,  KC_8,  KC_9,    KC_0,    KC_MINS,      KC_EQL,       KC_BSPC,            RGB_MOD,
+  KC_TAB,  KC_Q,    KC_W,    KC_E,  KC_R,  KC_T,  KC_Y,   KC_U,  KC_I,  KC_O,    KC_P,    KC_LBRC,      KC_RBRC,      KC_BSLASH,          KC_HOME,
+  KC_ESC,  KC_A,    KC_S,    KC_D,  KC_F,  KC_G,  KC_H,   KC_J,  KC_K,  KC_L,    KC_SCLN, KC_QUOT,                    KC_ENT,             KC_PGUP,
+  KC_LSFT,          KC_Z,    KC_X,  KC_C,  KC_V,  KC_B,   KC_N,  KC_M,  KC_COMM, KC_DOT,  KC_SLSH,                    KC_RSFT,   KC_UP,   KC_PGDOWN,
+  KC_LCTL, KC_LALT, KC_LGUI,                      KC_SPC,                        KC_RGUI, MO(_MAC_FN1), MO(_MAC_FN2), KC_LEFT,   KC_DOWN, KC_RGHT
 ),
 
 /**
@@ -137,7 +138,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *
  * TODO: Is RGB_TOG okay since it writes to EEPROM?
  */
-[_FN1] = LAYOUT(
+[_MAC_FN1] = LAYOUT(
   // 0,    1,       2,       3,          4,      5,       6,       7,       8,       9,       10,      11,      12,      13,      14,      15
   KC_ESC,  KC_F14,  KC_F15,  MAC_EXPOSE, KC_F16, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_DEL,           RGB_TOG,
   KC_NO,   KC_NO,   KC_NO,   KC_NO,      KC_NO,  KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,  KC_NO,            KC_NO,
@@ -168,16 +169,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * KPI - Keyboard RGB speed increase
  * KPD - Keyboard RGB speed decrease
  */
-[_FN2] = LAYOUT(
+[_MAC_FN2] = LAYOUT(
   // 0,    1,      2,      3,      4,      5,      6,      7,      8,      9,      10,     11,     12,     13,    14,      15
   KC_NO, KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10, KC_F11, KC_F12, KC_NO,          KC_NO,
   KC_NO, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17, KC_F18, KC_F19, KC_F20, KC_F21, KC_F22, KC_F23, KC_F24, KC_NO,          KC_NO,
   KC_NO, KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,          KC_NO,          KC_NO,
   KC_NO,         KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,  KC_NO,          KC_NO, RGB_SPI, KC_NO,
   KC_NO, KC_NO,  KC_NO,                          KC_NO,                          KC_NO,  KC_NO,  KC_NO,  KC_NO, RGB_SPD, KC_NO
-)
-
-#else
+),
 
 /**
  * Windows Main Layer
@@ -199,13 +198,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * PUP - Page Up
  * PDN - Page Down
  */
-[_BASE] = LAYOUT(
-  // 0,    1,       2,       3,    4,    5,    6,      7,    8,    9,       10,       11,       12,       13,        14,      15
-  KC_ESC,  KC_1,    KC_2,    KC_3, KC_4, KC_5, KC_6,   KC_7, KC_8, KC_9,    KC_0,     KC_MINS,  KC_EQL,   KC_BSPC,            RGB_MOD,
-  KC_TAB,  KC_Q,    KC_W,    KC_E, KC_R, KC_T, KC_Y,   KC_U, KC_I, KC_O,    KC_P,     KC_LBRC,  KC_RBRC,  KC_BSLASH,          KC_HOME,
-  KC_ESC,  KC_A,    KC_S,    KC_D, KC_F, KC_G, KC_H,   KC_J, KC_K, KC_L,    KC_SCLN,  KC_QUOT,            KC_ENT,             KC_PGUP,
-  KC_LSFT,          KC_Z,    KC_X, KC_C, KC_V, KC_B,   KC_N, KC_M, KC_COMM, KC_DOT,   KC_SLSH,            KC_RSFT,   KC_UP,   KC_PGDOWN,
-  KC_LCTL, KC_LGUI, KC_LALT,                   KC_SPC,                      KC_RCTRL, MO(_FN1), MO(_FN2), KC_LEFT,   KC_DOWN, KC_RGHT
+[_WIN_BASE] = LAYOUT(
+  // 0,    1,       2,       3,    4,    5,    6,      7,    8,    9,       10,       11,           12,           13,        14,      15
+  KC_ESC,  KC_1,    KC_2,    KC_3, KC_4, KC_5, KC_6,   KC_7, KC_8, KC_9,    KC_0,     KC_MINS,      KC_EQL,       KC_BSPC,            RGB_MOD,
+  KC_TAB,  KC_Q,    KC_W,    KC_E, KC_R, KC_T, KC_Y,   KC_U, KC_I, KC_O,    KC_P,     KC_LBRC,      KC_RBRC,      KC_BSLASH,          KC_HOME,
+  KC_ESC,  KC_A,    KC_S,    KC_D, KC_F, KC_G, KC_H,   KC_J, KC_K, KC_L,    KC_SCLN,  KC_QUOT,                    KC_ENT,             KC_PGUP,
+  KC_LSFT,          KC_Z,    KC_X, KC_C, KC_V, KC_B,   KC_N, KC_M, KC_COMM, KC_DOT,   KC_SLSH,                    KC_RSFT,   KC_UP,   KC_PGDOWN,
+  KC_LCTL, KC_LGUI, KC_LALT,                   KC_SPC,                      KC_RCTRL, MO(_WIN_FN1), MO(_WIN_FN2), KC_LEFT,   KC_DOWN, KC_RGHT
 ),
 
 /**
@@ -237,7 +236,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * KLB - Keyboard RGB light style back
  * KLF - Keyboard RGB light style forward
  */
-[_FN1] = LAYOUT(
+[_WIN_FN1] = LAYOUT(
   // 0,    1,       2,       3,     4,     5,       6,       7,       8,       9,       10,      11,      12,      13,      14,      15
   KC_GRV,  KC_BRID, KC_BRIU, KC_NO, KC_NO, RGB_VAD, RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, KC_VOLD, KC_VOLU, KC_NO,            RGB_TOG,
   KC_NO,   KC_NO,   KC_NO,   KC_NO, KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_INS,  KC_DEL,  KC_END,  KC_NO,            KC_NO,
@@ -264,7 +263,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * KPI - Keyboard RGB speed increase
  * KPD - Keyboard RGB speed decrease
  */
-[_FN2] = LAYOUT(
+[_WIN_FN2] = LAYOUT(
   // 0,  1,      2,      3,      4,      5,      6,      7,      8,      9,      10,     11,     12,     13,    14,      15
   KC_NO, KC_F1,  KC_F2,  KC_F3,  KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10, KC_F11, KC_F12, KC_NO,          KC_NO,
   KC_NO, KC_F13, KC_F14, KC_F15, KC_F16, KC_F17, KC_F18, KC_F19, KC_F20, KC_F21, KC_F22, KC_F23, KC_F24, KC_NO,          KC_NO,
@@ -273,39 +272,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_NO, KC_NO,  KC_NO,                          KC_NO,                          KC_NO,  KC_NO,  KC_NO,  KC_NO, RGB_SPD, KC_NO
 )
 
-#endif
-
 };
 
-/* // This seems to always go to index=1, active=1 */
-/* void dip_switch_update_user(uint8_t index, bool active) { */
-/*   // this won't work :( */
-/*   //dprintf("dippity index=%s active=%s\n", index, active); */
-/*   switch (index) { */
-/*     case 0: */
-/*       if (active) { */
-/*         // BT mode */
-/*       } else { */
-/*         // Cable mode */
-/*       } */
-/*       break; */
-/*     case 1: */
-/*       if (active) { */
-/*         // Win/Android mode */
-/*         /1* layer_move(_WIN_BASE); *1/ */
-/*       } else { */
-/*         // Mac/iOS mode */
-/*         /1* layer_move(_MAC_BASE); *1/ */
-/*       } */
-/*       break; */
-/*   } */
-/* } */
-
-/* void dip_switch_update_kb(uint8_t index, bool active) { */
-/*   if (index == 1) { */
-/*     default_layer_set(1UL << (active ? 3 : 0)); */
-/*   } */
-/* } */
+bool dip_switch_update_user(uint8_t index, bool active){
+  switch (index) {
+    case 0: // macOS/windows toggle
+      if (active) { // macOS
+        layer_move(_MAC_BASE);
+      } else { // Windows
+        layer_move(_WIN_BASE);
+      }
+      break;
+  }
+  return true;
+}
 
 // Disable RGB at boot
 void matrix_init_user(void) {
@@ -326,7 +306,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   mod_state = get_mods();
 
   switch (keycode) {
-#ifndef _K6_WINDOWS
     // FN1 + 3:        Exposé all apps' windows (via Ctrl-Up)
     // FN1 + CTRL + 3: Exposé current apps' windows (via Ctrl-Down)
     // FN1 + CMD + 3:  Show Desktop (via F11)
@@ -364,7 +343,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
       return false;
       break;
-#endif
     default:
       return true;
       break;
