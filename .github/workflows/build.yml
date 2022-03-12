@@ -10,7 +10,7 @@ jobs:
       - name: Clone SonixQMK
         run: git clone https://github.com/SonixQMK/qmk_firmware.git
       - name: Install qmk deps
-        run: cd qmk_firmware && ./util/qmk_install.sh
+        run: cd qmk_firmware && ./util/qmk_install.sh && python3 -m pip install qmk
       - name: fix gcc
         run: curl -o ./update-gcc10-ubuntu.sh https://raw.githubusercontent.com/radunanescu/ubuntu_gcc_armtoolchain10/main/update-gcc10-ubuntu.sh && chmod +x update-gcc10-ubuntu.sh && sudo ./update-gcc10-ubuntu.sh
       - name: Install git submodules
@@ -18,7 +18,7 @@ jobs:
       - name: Copy custom keymaps
         run: cp -rp keyboards/keychron/k6/keymaps/ansi-josh qmk_firmware/keyboards/keychron/k6/keymaps
       - name: Compile firmware
-        run: cd qmk_firmware && make -j4 keychron/k6/rgb/ansi:ansi-josh COLOR=false _K6_WINDOWS="${_K6_WINDOWS-no}"
+        run: cd qmk_firmware && make keychron/k6/rgb/ansi:ansi-josh
       - name: Upload compiled firmware (build artifact)
         uses: actions/upload-artifact@v2
         with:
