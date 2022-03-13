@@ -16,12 +16,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include QMK_KEYBOARD_H
 
-// The Mac/Windows switch doesn't seem to trigger `dip_switch_update_user` or
-// `dip_switch_update_kb`. I only use a Macso I'm defaulting to that. If you
-// want Windows, compile with `make keychron/k6:ansi-josh _K6_WINDOWS=yes` or
-// uncomment the line below
-/* #define _K6_WINDOWS */
-
 // Each layer gets a name for readability, which is then used in the keymap
 // matrix below. The underscores don't mean anything - you can have a layer
 // called STUFF or any other name. Layer names don't all need to be of the
