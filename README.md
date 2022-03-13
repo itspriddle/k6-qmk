@@ -1,17 +1,26 @@
 # Keychron K6 QMK
 
 This repo is for me to compile [QMK][] firmware for my [Keychron K6][]
-keyboard. Actually it uses the [Sonix QMK][] fork to work on the K6's
+keyboard. Actually, it uses the [Sonix QMK][] fork to work on the K6's
 SN32F248B chip.
 
 It uses GitHub actions to build and upload compiled `.bin` files suitable for
 flashing with [Sonix Flasher][].
 
+I did this for two reasons:
+
+1. I wanted a semi-reproducible environment to build firmware on in case my
+   computers change.
+2. I wanted an archive of the keymap code _and_ the generated firmwares. This
+   way I can tag a working version on GitHub and always have a copy in case
+   I break something.
+
 ## K6 Keymap
 
-My K6 keymap is at [`keyboards/keychron/k6/keymaps/ansi-josh/keymap.c`](./keyboards/keychron/k6/keymaps/ansi-josh/keymap.c).
+My K6 keymap is at
+[`keyboards/keychron/k6/keymaps/ansi-josh/keymap.c`](./keyboards/keychron/k6/keymaps/ansi-josh/keymap.c).
 It is a copy of the [`keychron/k6/rgb/ansi:ansi`][Sonix QMK K6 Keymap]
-targeting macOS.
+that I've tweaked a bit.
 
 See the [releases](https://github.com/itspriddle/k6-qmk/releases) page for
 tagged builds.
